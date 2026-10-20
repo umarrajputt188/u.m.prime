@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d1c">
+  <title>Zero Prime — Your Space</title>
+  <style>
+    :root{--bg:#080d1c;--panel:#10182b;--panel2:#151f36;--text:#f4f7ff;--muted:#9eabc5;--line:#26334f;--accent:#7c5cff;--accent2:#27d8c4;--danger:#ff6b81}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 0%,#18224a 0,transparent 42%),radial-gradient(ellipse at 90% 20%,#142f43 0,transparent 35%),var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;padding:24px}
+    button,input{font:inherit} button{cursor:pointer}
+    .shell{width:min(100%,1000px);display:grid;grid-template-columns:1fr 1fr;border:1px solid #293653;border-radius:28px;overflow:hidden;background:#0c1324eF;box-shadow:0 28px 90px #0008}
+    .hero{padding:48px 40px;background:linear-gradient(145deg,#171e3d,#0d2534);display:flex;flex-direction:column;justify-content:space-between;min-height:600px;position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid #7c5cff55;right:-100px;bottom:40px;box-shadow:0 0 0 28px #7c5cff0c,0 0 0 58px #27d8c40a}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.3px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:white;font-size:21px;box-shadow:0 8px 25px #7c5cff55}
+    .eyebrow{color:var(--accent2);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin:0 0 16px}
+    h1{font-size:clamp(36px,5vw,54px);line-height:1.06;letter-spacing:-1.8px;margin:0 0 20px}.gradient{background:linear-gradient(90deg,#b8aaff,#67f0df);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{color:#b5c2da;line-height:1.75;max-width:390px}.feature-list{display:grid;gap:14px;margin-top:34px}.feature{display:flex;align-items:center;gap:12px;color:#dce5f7;font-size:14px}.check{width:25px;height:25px;display:grid;place-items:center;border-radius:8px;background:#27d8c41a;color:var(--accent2);border:1px solid #27d8c44d}
+    .hero-foot{font-size:12px;color:#8392b0;margin-top:45px;position:relative;z-index:1}
+    .content{padding:42px 38px;display:flex;flex-direction:column;justify-content:center;min-width:0}.mobile-brand{display:none}.panel{width:100%;max-width:390px;margin:auto}.tabs{display:grid;grid-template-columns:1fr 1fr;padding:5px;border:1px solid var(--line);border-radius:14px;background:#080e1c;margin:26px 0}
+    .tab{border:0;border-radius:10px;padding:12px 8px;background:transparent;color:var(--muted);font-weight:700}.tab.active{background:#202944;color:white;box-shadow:inset 0 0 0 1px #364566}
+    h2{font-size:27px;letter-spacing:-.7px;margin:0 0 8px}.sub{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 25px}
+    .field{margin-bottom:16px}.field label{display:block;color:#dce5f7;font-size:13px;font-weight:700;margin-bottom:8px}.field input{width:100%;background:#080e1c;border:1px solid #2a3857;border-radius:12px;padding:14px 15px;color:white;outline:none;transition:.2s}.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c5cff25}.field input::placeholder{color:#667591}
+    .row-between{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);margin:3px 0 19px}.text-btn{border:0;background:none;color:#b8aaff;padding:0;font-size:12px;font-weight:700}.primary{width:100%;border:0;border-radius:12px;padding:14px 16px;color:white;font-weight:800;background:linear-gradient(100deg,#7457ff,#4b7dff);box-shadow:0 8px 24px #654cff35;transition:transform .15s,opacity .15s}.primary:hover{transform:translateY(-1px)}.primary:disabled{opacity:.55;cursor:wait}
+    .message{display:none;margin:0 0 16px;padding:12px 13px;border-radius:10px;font-size:13px;line-height:1.5}.message.show{display:block}.message.error{background:#ff6b8118;border:1px solid #ff6b8148;color:#ffb4bf}.message.ok{background:#27d8c414;border:1px solid #27d8c44a;color:#8af5e6}.note{font-size:11px;line-height:1.6;color:#7584a2;text-align:center;margin:20px 0 0}.note a{color:#b8aaff}
+    .dashboard{display:none}.user-chip{display:flex;align-items:center;gap:12px;background:#080e1c;border:1px solid var(--line);padding:14px;border-radius:14px;margin:24px 0}.avatar{width:42px;height:42px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));font-weight:900}.user-email{font-size:13px;overflow-wrap:anywhere;color:#c6d1e7}.status{display:inline-flex;align-items:center;gap:7px;color:var(--accent2);font-size:12px;margin-top:6px}.dot{width:7px;height:7px;background:currentColor;border-radius:50%}.dash-card{border:1px solid var(--line);border-radius:16px;padding:18px;background:#0a1121;margin-bottom:12px}.dash-card h3{margin:0 0 7px;font-size:16px}.dash-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}.secondary{width:100%;border:1px solid #34415e;background:#17213a;color:#f1f4ff;border-radius:12px;padding:13px;font-weight:700;margin-top:10px}
+    .bottom-mobile{display:none}
+    @media(max-width:760px){body{padding:12px;align-items:flex-start}.shell{grid-template-columns:1fr;border-radius:22px;max-width:480px}.hero{display:none}.content{padding:26px 22px 30px;min-height:calc(100vh - 24px)}.mobile-brand{display:flex;margin-bottom:28px}.panel{max-width:none}h2{font-size:25px}.bottom-mobile{display:block;text-align:center;font-size:11px;color:#7584a2;margin-top:24px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="brand"><div class="logo">Z</div><span>ZERO PRIME</span></div>
+      <div>
+        <p class="eyebrow">Your next chapter starts here</p>
+        <h1>Make room for<br><span class="gradient">what's next.</span></h1>
+        <p>A secure, personal space built around you. Sign in to continue or create your account in a few simple steps.</p>
+        <div class="feature-list">
+          <div class="feature"><span class="check">✓</span> Email and password authentication</div>
+          <div class="feature"><span class="check">✓</span> Password reset by email</div>
+          <div class="feature"><span class="check">✓</span> Personal dashboard</div>
+        </div>
+      </div>
+      <div class="hero-foot">ZERO PRIME © <span id="year"></span> · Built for your next move</div>
+    </section>
+    <section class="content">
+      <div class="brand mobile-brand"><div class="logo">Z</div><span>ZERO PRIME</span></div>
+      <div class="panel">
+        <div id="authView">
+          <p class="eyebrow">Welcome to Zero Prime</p>
+          <h2 id="heading">Welcome back</h2>
+          <p class="sub" id="subheading">Enter your details to access your account.</p>
+          <div class="tabs" role="tablist" aria-label="Account">
+            <button class="tab active" id="loginTab" type="button">Log in</button>
+            <button class="tab" id="signupTab" type="button">Sign up</button>
+          </div>
+          <div id="message" class="message" role="status" aria-live="polite"></div>
+          <form id="authForm">
+            <div class="field" id="nameField" hidden>
+              <label for="fullName">Full name</label>
+              <input id="fullName" type="text" autocomplete="name" placeholder="Your name">
+            </div>
+            <div class="field">
+              <label for="email">Email address</label>
+              <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required>
+            </div>
+            <div class="row-between" id="formOptions">
+              <span>Keep your account secure</span>
+              <button class="text-btn" id="forgotBtn" type="button">Forgot password?</button>
+            </div>
+            <button class="primary" id="submitBtn" type="submit">Log in to Zero Prime</button>
+          </form>
+          <p class="note">By continuing, you agree to use Zero Prime responsibly. Never share your password with anyone.</p>
+        </div>
+
+        <div id="dashboardView" class="dashboard">
+          <p class="eyebrow">Account verified</p>
+          <h2>You're signed in.</h2>
+          <p class="sub">Welcome to your Zero Prime space.</p>
+          <div class="user-chip"><div class="avatar" id="avatar">Z</div><div><strong id="displayName">Zero Prime member</strong><div class="user-email" id="displayEmail"></div><div class="status"><span class="dot"></span> Connected to Firebase Auth</div></div></div>
+          <div class="dash-card"><h3>Your dashboard</h3><p>Your Firebase account is signed in. You can safely sign out below, or return later and log in again.</p></div>
+          <div class="dash-card"><h3>Account security</h3><p>If you forget your password, use “Forgot password?” on the login screen to receive a reset email.</p></div>
+          <button class="primary" id="signoutBtn" type="button">Sign out</button>
+        </div>
+      </div>
+      <div class="bottom-mobile">ZERO PRIME © <span id="yearMobile"></span></div>
+    </section>
+  </main>
+
+  <!-- Firebase web SDK: real email/password authentication, not a demo login. -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import {
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+      sendPasswordResetEmail, updateProfile, onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    /*
+      SETUP REQUIRED:
+      1. Firebase Console > Project settings > Your apps > Web app.
+      2. Copy the firebaseConfig object from Firebase and replace the values below.
+      3. Firebase Console > Authentication > Get started > Sign-in method > Email/Password > Enable.
+      4. Authentication > Settings > Authorized domains: add your GitHub Pages domain if needed.
+    */
+    const firebaseConfig = {
+      apiKey: "PASTE_YOUR_FIREBASE_API_KEY",
+      authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "PASTE_YOUR_PROJECT_ID",
+      storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
+      messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
+      appId: "PASTE_YOUR_FIREBASE_APP_ID"
+    };
+
+    const $ = (id) => document.getElementById(id);
+    $("year").textContent = new Date().getFullYear();
+    $("yearMobile").textContent = new Date().getFullYear();
+
+    let app, auth, mode = "login";
+    const configReady = firebaseConfig.apiKey !== "PASTE_YOUR_FIREBASE_API_KEY" &&
+      firebaseConfig.projectId !== "PASTE_YOUR_PROJECT_ID" &&
+      firebaseConfig.appId !== "PASTE_YOUR_FIREBASE_APP_ID";
+
+    function showMessage(text, type = "error") {
+      const el = $("message");
+      el.textContent = text;
+      el.className = `message show ${type}`;
+    }
+    function clearMessage() {
+      $("message").textContent = "";
+      $("message").className = "message";
+    }
+    function friendlyError(error) {
+      const code = error?.code || "";
+      const messages = {
+        "auth/email-already-in-use": "This email already has an account. Please log in instead.",
+        "auth/invalid-email": "Please enter a valid email address.",
+        "auth/weak-password": "Please choose a stronger password with at least 6 characters.",
+        "auth/invalid-credential": "Email or password is incorrect. Please check and try again.",
+        "auth/user-not-found": "No account was found for this email. Please sign up first.",
+        "auth/wrong-password": "Email or password is incorrect. Please try again.",
+        "auth/too-many-requests": "Too many attempts. Please wait a little and try again.",
+        "auth/network-request-failed": "Network error. Check your internet connection.",
+        "auth/operation-not-allowed": "Email/Password sign-in is not enabled in Firebase Authentication.",
+        "auth/unauthorized-domain": "This website domain is not authorized in Firebase Authentication settings.",
+        "auth/invalid-api-key": "The Firebase API key is invalid. Check your Firebase configuration."
+      };
+      return messages[code] || (error?.message || "Something went wrong. Please try again.");
+    }
+    function setMode(next) {
+      mode = next;
+      clearMessage();
+      const signup = mode === "signup";
+      $("loginTab").classList.toggle("active", !signup);
+      $("signupTab").classList.toggle("active", signup);
+      $("heading").textContent = signup ? "Create your account" : "Welcome back";
+      $("subheading").textContent = signup ? "Join Zero Prime in just a moment." : "Enter your details to access your account.";
+      $("nameField").hidden = !signup;
+      $("fullName").required = signup;
+      $("password").autocomplete = signup ? "new-password" : "current-password";
+      $("formOptions").style.display = signup ? "none" : "flex";
+      $("submitBtn").textContent = signup ? "Create real account" : "Log in to Zero Prime";
+    }
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("signupTab").addEventListener("click", () => setMode("signup"));
+
+    $("authForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage();
+      if (!configReady) {
+        showMessage("Setup needed: replace the Firebase configuration placeholders in this file with the config from your Firebase Web App, then enable Email/Password in Firebase Authentication.");
+        return;
+      }
+      const email = $("email").value.trim();
+      const password = $("password").value;
+      const btn = $("submitBtn");
+      btn.disabled = true;
+      try {
+        if (mode === "signup") {
+          const name = $("fullName").value.trim();
+          if (!name) throw new Error("Please enter your name.");
+          const credential = await createUserWithEmailAndPassword(auth, email, password);
+          await updateProfile(credential.user, { displayName: name });
+          showMessage("Your account was created successfully.", "ok");
+        } else {
+          await signInWithEmailAndPassword(auth, email, password);
+        }
+      } catch (error) {
+        showMessage(friendlyError(error));
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    $("forgotBtn").addEventListener("click", async () => {
+      clearMessage();
+      if (!configReady) {
+        showMessage("First add your Firebase Web App configuration to this file.");
+        return;
+      }
+      const email = $("email").value.trim();
+      if (!email) {
+        showMessage("Enter your email address above, then tap Forgot password again.");
+        $("email").focus();
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showMessage("If an account exists for this email, a password reset message has been sent. Check your inbox and spam folder.", "ok");
+      } catch (error) {
+        showMessage(friendlyError(error));
+      }
+    });
+
+    $("signoutBtn").addEventListener("click", async () => {
+      try { await signOut(auth); clearMessage(); }
+      catch (error) { showMessage(friendlyError(error)); }
+    });
+
+    if (configReady) {
+      try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            $("authView").style.display = "none";
+            $("dashboardView").style.display = "block";
+            $("displayName").textContent = user.displayName || "Zero Prime member";
+            $("displayEmail").textContent = user.email || "";
+            $("avatar").textContent = (user.displayName || user.email || "Z").trim().charAt(0).toUpperCase();
+          } else {
+            $("authView").style.display = "block";
+            $("dashboardView").style.display = "none";
+          }
+        });
+      } catch (error) {
+        showMessage("Firebase could not start. Please check your Firebase configuration.");
+      }
+    } else {
+      showMessage("Firebase setup required: paste your real Web App configuration into the firebaseConfig section in this HTML file before sign-up and login can work.");
+    }
+  </script>
+</body>
+</html>
